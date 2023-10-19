@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import scikit-learn as sklearn
 from sklearn.ensemble import RandomForestClassifier
 
 # Load the Titanic dataset (replace 'dataset.csv' with the actual filename)
