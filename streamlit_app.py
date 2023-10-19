@@ -1,19 +1,11 @@
 import streamlit as st
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
-# Load your Titanic dataset here
-# Example: df = pd.read_csv('titanic_dataset.csv')
+# Load the Titanic dataset (replace 'dataset.csv' with the actual filename)
+df = pd.read_csv('dataset.csv')
 
 st.title("Titanic Survival Prediction")
-
-# Display some basic information about the dataset
-st.write("This app provides insights into the Titanic dataset and allows you to make predictions.")
-st.write("The Titanic dataset contains information about passengers on the Titanic.")
-
-# Show the first few rows of the dataset
-if 'df' in locals():
-    st.write("Sample Data:")
-    st.write(df.head())
 
 # Sidebar for user input
 st.sidebar.header("User Input")
@@ -38,22 +30,30 @@ if 'df' in locals():
 # Create a section for prediction
 st.header("Survival Prediction")
 
-# Show a form to input features for prediction (you can customize this based on your model's input features)
+# Show a form to input features for prediction
 if 'df' in locals():
     st.subheader("Enter Passenger Information for Prediction")
-    name = st.text_input("Name")
-    age = st.number_input("Age", min_value=0)
-    gender = st.selectbox("Gender", ('Male', 'Female'))
     pclass = st.selectbox("Passenger Class", (1, 2, 3))
+    sex = st.selectbox("Sex", ('male', 'female'))
+    sibsp = st.number_input("SibSp", min_value=0)
+    parch = st.number_input("Parch", min_value=0)
 
-    # Add more features as needed for your model
+    # Preprocess the selected features
+    features = [pclass, sex, sibsp, parch]
+    features = pd.get_dummies(pd.Series(features)).values.reshape(1, -1)
 
-    # Create a button to make a prediction
-    if st.button("Predict Survival"):
-        # Make your prediction here using your machine learning model
-        # Replace this with your actual prediction code
-        prediction = "Survived"  # Replace with your model's prediction logic
-        st.write(f"Prediction: The passenger is likely to have {prediction}")
+    # Train a Random Forest model (you can replace this with your trained model)
+    model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=1)
+    # Load your pre-trained model here
+    # model = joblib.load('your_model.pkl')
+    X = pd.get_dummies(df[['Pclass', 'Sex', 'SibSp', 'Parch']])
+    y = df['Survived']
+    model.fit(X, y)
+
+    # Make a prediction
+    prediction = model.predict(features)[0]
+
+    st.write("Prediction: ", "Survived" if prediction == 1 else "Did Not Survive")
 
 
 
