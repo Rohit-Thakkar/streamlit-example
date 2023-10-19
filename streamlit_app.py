@@ -57,13 +57,13 @@ if 'df' in locals():
 
 
 
-"""from collections import namedtuple
+'''from collections import namedtuple
 import altair as alt
 import math
 import pandas as pd
 import streamlit as st
 
-"""
+
 # Welcome to Streamlit!
 
 Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
@@ -94,4 +94,4 @@ with st.echo(code_location='below'):
 
     st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
         .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))"""
+        .encode(x='x:Q', y='y:Q'))'''
